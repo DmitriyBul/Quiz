@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul>
+    <h1>This is a quiz!</h1>
+        {{ quiz.name }}
+    <a href="{% url 'quiz:question_detail' quiz.slug number%}">Start Quiz</a>
+    <br>
+</ul>
+{% endblock %}

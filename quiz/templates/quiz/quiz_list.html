@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul>
+    {% for quiz in quiz_list %}
+        <a href="{{ quiz.get_absolute_url }} ">{{ quiz.name }}</a>
+
+    <br>
+    {% endfor %}
+</ul>
+{% endblock %}

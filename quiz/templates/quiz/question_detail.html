@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul>
+        Quiz: {{ quiz.name }}
+    <br>
+    Question №{{ question.number }}
+    <br>
+    {{ question.question_text }}
+    <br>
+<a href="{% url 'quiz:next_question_detail' quiz.slug next_number %}">Next question</a>
+</ul>
+{% endblock %}
