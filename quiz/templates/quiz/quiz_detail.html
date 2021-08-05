@@ -4,7 +4,7 @@
 <ul>
     <h1>This is a quiz!</h1>
         {{ quiz.name }}
-    <a href="{% url 'quiz:question_detail' quiz.slug number%}">Start Quiz</a>
+    <a href="{% url 'quiz:question_detail' quiz.slug %}">Start Quiz</a>
     <br>
 </ul>
 {% endblock %}

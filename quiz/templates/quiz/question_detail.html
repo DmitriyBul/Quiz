@@ -8,6 +8,12 @@
     <br>
     {{ question.question_text }}
     <br>
-<a href="{% url 'quiz:next_question_detail' quiz.slug next_number %}">Next question</a>
+    <form method="post">
+        {% csrf_token %}
+        <label>Your answer</label>
+        {{ form.as_p }}
+        <input type="submit" value="OK">
+    </form>
+<a href="{% url 'quiz:next_question_detail' quiz.slug question.number %}">Next question</a>
 </ul>
 {% endblock %}

@@ -7,6 +7,7 @@ urlpatterns = [
     path('', lambda req: redirect('/home/')),
     path('home/', views.QuizListView.as_view(), name='quiz_list'),
     path('<slug:slug>/', views.QuizDetailView.as_view(), name='quiz_detail'),
-    path('<slug:slug>/<int:number>/', views.QuestionDetailView.as_view(), name='question_detail'),
+    path('first/<slug:slug>/', views.QuestionDetailView.as_view(), name='question_detail'),
     path('<slug:slug>/<int:number>/', views.QuestionNextDetailView.as_view(), name='next_question_detail'),
+    path('<slug:slug>/results/', views.QuestionNextDetailView.as_view(), name='next_question_detail'),
 ]
