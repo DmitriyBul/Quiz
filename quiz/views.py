@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, View
 
 from quiz.forms import UserAnswerForm
-from quiz.models import Quiz, Question
+from quiz.models import Quiz, Question, UsersAnswer
 
 
 class QuizListView(ListView):
@@ -30,6 +30,7 @@ class QuestionDetailView(View):
         quiz = Quiz.objects.get(slug=self.kwargs['slug'])
         next_number = 1
         question = Question.objects.filter(number=1).get(quiz=quiz)
+        UsersAnswer.objects.filter(user=request.user).delete()
         form = UserAnswerForm(request.POST, user=request.user, question=question)
         template_name = 'quiz/question_detail.html'
         context = {'quiz': quiz, 'question': question, 'next_number': next_number, 'form': form}
@@ -61,8 +62,19 @@ class QuestionNextDetailView(View, LoginRequiredMixin):
             context = {'quiz': quiz, 'question': question, 'form': form}
             return render(request, template_name, context)
         else:
+            question_ids = list(Question.objects.filter(quiz=quiz).values_list('id', flat=True))
+            correct_answers = list(
+                Question.objects.filter(quiz=quiz).values_list('answer', flat=True).order_by('number'))
+            users_answers = list(UsersAnswer.objects.filter(question__id__in=question_ids).values_list('answer',
+                                                                                                       flat=True))
+            correct_answers_count = 0
+            number_of_questions = len(question_ids)
+            for item in range(number_of_questions):
+                if correct_answers[item] == users_answers[item]:
+                    correct_answers_count += 1
             template_name = 'quiz/results.html'
-            context = {'quiz': quiz}
+            context = {'quiz': quiz, 'correct_answers_count': correct_answers_count,
+                       'number_of_questions': number_of_questions}
             return render(request, template_name, context)
 
     def post(self, request, ordering='AZ', *args, **kwargs):
