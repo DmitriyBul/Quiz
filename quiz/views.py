@@ -25,7 +25,7 @@ class QuizDetailView(View):
         return render(request, template_name, context)
 
 
-class QuestionDetailView(View):
+class QuestionDetailView(View, LoginRequiredMixin):
     def get(self, request, ordering='AZ', *args, **kwargs):
         quiz = Quiz.objects.get(slug=self.kwargs['slug'])
         next_number = 1
@@ -87,6 +87,5 @@ class QuestionNextDetailView(View, LoginRequiredMixin):
             new_item = form.save(commit=False)
             new_item.user = request.user
             new_item.question = question2
-            # Добавляем пользователя к созданному объекту.
             new_item.save()
             return redirect('quiz:next_question_detail', slug=self.kwargs['slug'], number=question.number + 1)

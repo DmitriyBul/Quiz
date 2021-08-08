@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h2>You can choose quiz from the list below:</h2>
 <ul>
     {% for quiz in quiz_list %}
         <a href="{{ quiz.get_absolute_url }} ">{{ quiz.name }}</a>

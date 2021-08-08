@@ -2,9 +2,12 @@
 
 {% block content %}
 <ul>
-    <h1>This is a quiz!</h1>
-        {{ quiz.name }}
+    <h1>This is a {{ quiz.name }} quiz!</h1>
+    {% if user.is_authenticated %}
     <a href="{% url 'quiz:question_detail' quiz.slug %}">Start Quiz</a>
+    {% else %}
+        You need to <a href="{% url 'login' %}">login</a> to start a quiz
+    {% endif %}
     <br>
 </ul>
 {% endblock %}
